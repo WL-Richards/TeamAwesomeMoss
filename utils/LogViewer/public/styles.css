@@ -1,0 +1,306 @@
+:root {
+  --bg: #121417;           /* darkest background */
+  --sidebar-bg: #1b1e24;   /* sidebar slightly lighter than bg */
+  --panel: #232831;        /* main panels */
+  --panel-2: #2c323e;
+  --text: #eaf2ff;
+  --muted: #9ca7bb;
+  --border: #353c4a;
+  --primary: #2878ff;
+  --primary-600: #1661ef;
+  --primary-700: #104ec4;
+  --log-bg: #0c0e12;
+  --log-border: #22252d;
+}
+
+body, html {
+  margin: 0; height: 100%; color: var(--text); background: var(--bg);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto;
+}
+
+.layout {
+  display: flex;
+  height: 100vh;
+}
+/* Make the log area fill all remaining space edge-to-edge */
+.log-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* allow flex child to shrink properly */
+}
+
+.log-area {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr); /* smaller categories, large log */
+  gap: 0;                                       /* no gap for a continuous split */
+  height: 100%;
+  padding: 0;                                   
+}
+
+/* Categories (left) — no rounding, full height, slim divider to the log */
+.log-side {
+  background: var(--panel);
+  border: 0;
+  border-right: 1px solid var(--border);     /* single divider line between panes */
+  border-radius: 0;                           /* <- no rounding */
+  padding: 10px;                              /* small inner padding for content */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;                              /* allow proper flex scrolling */
+}
+
+/* Inside the categories pane */
+.cat-search {
+  border-radius: 4px;                         /* optional, keep square if you prefer: 0 */
+}
+.cat-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 0;                           /* <- square */
+  background: #0f131a;
+  padding: 6px;
+}
+.cat-item {
+  border-radius: 0;                           /* <- square */
+}
+
+.log-wrap,
+.log-area,
+.log-side,
+/* Log (right) — no rounding, full height/width */
+.log-main {
+  display: flex;
+  height: 100%;
+  min-width: 0;                               /* allow pre.log to shrink properly */
+  background: var(--log-bg) !important;
+}
+
+pre.log {
+  background: var(--log-bg);
+  border: 0;                                  /* no outer border */
+  border-radius: 0;                           /* <- no rounding */
+  padding: 12px;                              /* comfortable inner padding for text */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+/* ensure containers allow the <pre id="log"> to grow and scroll */
+.log-area, .log-main { height: 100%; min-height: 0; }
+pre.log { height: 100%; overflow: auto; }
+
+/* Optional: reduce rounding on header/controls if you want everything square */
+.appbar, .controls {
+  border-radius: 0;
+}
+
+/* Responsive: stack the categories above the log when narrow */
+@media (max-width: 820px) {
+  .log-area {
+    grid-template-columns: 1fr;
+  }
+  .log-side {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+/* Main content */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.appbar {
+  padding: 12px 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+h1 { margin: 0; font-size: 18px; }
+
+.controls {
+  padding: 12px 16px;
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--border);
+}
+.control-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+input[type="text"] {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+button.btn {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--primary-600);
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+button.btn:hover { background: var(--primary-600); }
+
+.log-wrap {
+  flex: 1;
+  padding: 16px;
+  overflow: hidden;
+}
+pre.log {
+  background: var(--log-bg);
+  border: 1px solid var(--log-border);
+  border-radius: 12px;
+  padding: 14px;
+  height: 100%;
+  overflow: auto;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.token-cat {
+  background: #192640;
+  color: #cfe0ff;
+  padding: 0 6px;
+  border-radius: 4px;
+  margin-right: 4px;
+  font-weight: 600;
+}
+.token-ts { color: #9fb5ff; }
+.token-meta { color: #67d3ff; }
+.token-msg { color: #e6edf7; }
+
+footer {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--border);
+  background: var(--panel);
+  padding: 10px 16px;
+  color: var(--muted);
+}
+
+/* Status dot */
+.dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #e74c3c;
+}
+.dot.on { background: #2ecc71; }
+
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Header + controls are auto height */
+.appbar,
+.controls {
+  flex: 0 0 auto;
+}
+
+/* Ensure log area grows but leaves room for footer */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* allow children to shrink properly */
+}
+
+.log-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0;           /* remove conflicting padding */
+  overflow: hidden;     /* no overlap, just contain */
+}
+
+.log-area {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  min-height: 0;        /* allow pre.log to scroll */
+}
+
+.log-main {
+  min-height: 0;
+  display: flex;
+}
+
+pre.log {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+  overflow-y: auto;     /* scroll inside log */
+}
+
+/* --- Square, full-bleed log + categories --- */
+.log-side,
+.cat-list,
+.cat-item,
+.log-main,
+pre.log,
+.log-wrap {
+  border-radius: 0 !important; /* force square edges */
+}
+
+/* Make sure log + categories stretch correctly */
+.log-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.log-area {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr); /* sidebar fixed, log flexible */
+  min-height: 0;
+}
+
+.log-side {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.log-main {
+  display: flex;
+  min-height: 0;
+}
+
+pre.log {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+  overflow-y: auto;
+  background: var(--log-bg);
+  border: 0;
+  padding: 12px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.35;
+}

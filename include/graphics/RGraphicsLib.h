@@ -1,0 +1,5 @@
+
+class RGraphicsLib{
+public:
+    RGraphicsLib();
+};

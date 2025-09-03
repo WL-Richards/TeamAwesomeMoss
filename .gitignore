@@ -13,6 +13,11 @@
 # Log files
 *.log
 
+# Web Server Deps
+node_modules/
+
 # --- Misc ---
 # VScode
 /.vscode/
+
+

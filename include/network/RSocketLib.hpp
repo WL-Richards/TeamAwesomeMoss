@@ -41,9 +41,7 @@ public:
             return -1;
         }
 
-        printf("Connection established to %s!\n", ipAddress);
-        RSocketLib::writeToSocket(sockFD, "Established connection to socket!\n");
-       
+        printf("Connection established to %s!\n", ipAddress);       
         return sockFD;
     }
 

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Live Log Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <div class="layout">
+
+    <!-- Main content -->
+    <main class="main">
+      <header class="appbar">
+        <h1>🎮 Log Viewer</h1>
+        <div class="status">
+          <span id="conn-dot" class="dot"></span>
+          <span id="conn-text">Connecting…</span>
+        </div>
+      </header>
+
+      <section class="controls">
+        <div class="control-row">
+          <label>
+            Search:
+            <input id="search" type="text" placeholder="Filter text (regex ok)" />
+          </label>
+          <label class="toggle">
+            <input id="autoscroll" type="checkbox" checked />
+            <span>Autoscroll</span>
+          </label>
+          <label class="toggle">
+            <input id="pause" type="checkbox" />
+            <span>Pause</span>
+          </label>
+          <button id="clear" class="btn">Clear</button>
+          <span class="small">Showing <span id="count">0</span> lines</span>
+        </div>
+      </section>
+
+      <section class="log-wrap">
+        <div class="log-area">
+            <!-- Local sidebar just for this area -->
+            <aside class="log-side">
+            <h3>Categories</h3>
+
+            <label class="switch show-all">
+                <input id="cat-show-all" type="checkbox" checked />
+                <span>Show all</span>
+            </label>
+
+            <input id="cat-search" type="text" placeholder="Search…" class="cat-search" />
+
+            <div id="cat-list" class="cat-list"></div>
+            </aside>
+
+            <!-- Log viewer -->
+            <div class="log-main">
+            <pre id="log" class="log"></pre>
+            </div>
+        </div>
+        </section>
+
+      <footer>
+        <small>TCP @ <code id="tcp-info">loading…</code> — Web UI via Socket.IO</small>
+      </footer>
+    </main>
+  </div>
+
+<script src="/socket.io/socket.io.js" defer></script>
+<script type="module" src="/client.js" defer></script>
+</body>
+</html>

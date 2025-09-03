@@ -2,9 +2,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../common/types.h"
+#include "../common/Types.h"
 #include "../config.h"
 #include "../network/RSocketLib.hpp"
+#include "LogCategories.h"
+
 
 #define LOG_BUFFER_SIZE 500
 
@@ -15,25 +17,25 @@ enum class LogLevel : uint8 {
     LOG_ERROR = 3
 };
 
-#define LOG_INFO(msg) { \
-    Logger::getInstance()->genericLog(LogLevel::LOG_INFO, msg, __FILE__, __func__, __LINE__); \
+#define RLOG(category, level, msg) { \
+    RLogger::getInstance()->genericLog(level, msg, category, __FILE__, __func__, __LINE__); \
 }
 
-#define LOGF_INFO(msg, ...) { \
+#define RLOGF(category, level, msg, ...) { \
     char buf[LOG_BUFFER_SIZE]; \
     snprintf(buf, sizeof(buf), msg, __VA_ARGS__); \
-    Logger::getInstance()->genericLog(LogLevel::LOG_INFO, msg, __FILE__, __func__, __LINE__); \
+    RLogger::getInstance()->genericLog(level, msg, category, __FILE__, __func__, __LINE__); \
 }
 
-class Logger{
+class RLogger{
 public:
     // Deleting copy constructor.
-    Logger(const Logger &obj) = delete;
+    RLogger(const RLogger &obj) = delete;
 
     /* Get an instance of the logger object */
-    static Logger *getInstance(){
+    static RLogger *getInstance(){
         if(instance == nullptr){
-            instance = new Logger();
+            instance = new RLogger();
             return instance;
         }
         else{
@@ -41,15 +43,15 @@ public:
         }
     };
 
-    Logger(){
+    RLogger(){
         activeLogSocket = RSocketLib::openSocket(LOG_SERVER_IP, LOG_SERVER_PORT);
     };
 
-    bool genericLog(LogLevel level, const char* message, const char* file, const char* func, unsigned int lineNumber){
+    bool genericLog(LogLevel level, const char* message, const char* category, const char* file, const char* func, unsigned int lineNumber){
         char buf[LOG_BUFFER_SIZE];
         char fileName[260];
         truncateFileName(file, fileName);
-        snprintf(buf, LOG_BUFFER_SIZE, "[%s] [%s:%s:%u] %s", Logger::getLogLevelName(level), fileName, func, lineNumber, message);
+        snprintf(buf, LOG_BUFFER_SIZE, "[%s] [%s] [%s:%s:%u] %s\n", category, RLogger::getLogLevelName(level), fileName, func, lineNumber, message);
         printf("%s\n", buf);
         if(activeLogSocket > 0){
             int bytesWritten = RSocketLib::writeToSocket(activeLogSocket, buf);
@@ -97,6 +99,6 @@ public:
     };
 
 private:
-    static Logger* instance;
+    static RLogger* instance;
     int activeLogSocket = -1;
 };

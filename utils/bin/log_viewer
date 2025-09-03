@@ -1,0 +1,3 @@
+#!/bin/bash
+SCRIPT_PATH="$(realpath "$0")"
+node "$SCRIPT_PATH/../../LogViewer/server.js"
