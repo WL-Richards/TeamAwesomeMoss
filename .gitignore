@@ -1,0 +1,18 @@
+# --- Building ---
+# Build Directories
+/output/
+/build/
+
+# Build Files
+*.elf
+*.self
+*.pkg
+*.map
+
+# --- Logging ---
+# Log files
+*.log
+
+# --- Misc ---
+# VScode
+/.vscode/
